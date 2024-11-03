@@ -8,7 +8,7 @@ interface SlashCommand {
 };
 
 // Botのトークンを.envから取得
-const BotToken: string = Deno.env.get("BOT_TOKEN")!;
+const BotToken: string = Deno.env.get('TOKEN')!;
 
 const SearchCommand: SlashCommand = {
     // コマンド情報
