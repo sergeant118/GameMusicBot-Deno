@@ -9,6 +9,7 @@ interface SlashCommand {
 
 // Botのトークンを.envから取得
 const BotToken: string = Deno.env.get('TOKEN')!;
+const GASURL: string = Deno.env.get('GASURL')!;
 
 const SearchCommand: SlashCommand = {
     // コマンド情報
@@ -35,7 +36,6 @@ const SearchCommand: SlashCommand = {
                     },
                 });*/
 
-        //const keyword = interaction.data.options?.[0]?.value;
         const keyword = interaction.data.options?.find(option => option.name === "keyword")?.value;
 
         //const keyword = "ゼノ";
@@ -49,8 +49,7 @@ const SearchCommand: SlashCommand = {
 
         try {
             // Google Apps ScriptへのPOSTリクエスト
-            const url = 'https://script.google.com/macros/s/AKfycbzvkJpw5O2TipOX2311MtawQZfASSX7LajUCwiuOP9XVDcA0VlaCRGID068NcfMVSqmwg/exec';
-            const response = await fetch(url, {
+            const response = await fetch(GASURL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
@@ -62,8 +61,7 @@ const SearchCommand: SlashCommand = {
             const content = responseJson.content || "Content field is not present in the response.";
 
             // フォローアップで結果を送信
-            //await bot.helpers.sendFollowUpMessage(interaction.token, { content });
-            console.log(content);
+            //console.log(content);
 
             return await bot.helpers.sendInteractionResponse(interaction.id, interaction.token, {
                 type: InteractionResponseTypes.ChannelMessageWithSource,
